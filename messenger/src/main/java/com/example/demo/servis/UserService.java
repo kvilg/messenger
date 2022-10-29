@@ -5,18 +5,11 @@ import com.example.demo.model.User;
 import com.example.demo.repo.RepoMessenger;
 import com.example.demo.repo.UserRepo;
 
-
-import com.fasterxml.classmate.AnnotationConfiguration;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
-import org.hibernate.criterion.Restrictions;
-import org.hibernate.internal.AbstractSessionImpl;
-import org.hibernate.internal.SessionFactoryImpl;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import org.springframework.orm.hibernate5.HibernateOperations;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -38,8 +31,13 @@ public class UserService implements UserDetailsService {
     @Autowired
     private RepoMessenger roomData;
 
-//    @Autowired
-//    private SessionFactory sessionFactory;
+//    @PersistenceContext // or even @Autowired
+//    private EntityManager entityManager;
+
+    @Autowired
+    private SessionFactory sessionFactory;
+
+
 
     public List<User> getAll() {
         return  this.userData.findAll();
@@ -48,16 +46,21 @@ public class UserService implements UserDetailsService {
         return this.userData.getByLogin(login);
     }
 
-//    public List<User> findUser(String name){
-//
-////        Session session = sessionFactory.openSession();
-////        List<Object[]> persons = session.createNativeQuery(
-////                        "SELECT id, name FROM Person" )
-////                .list();
-//
-//        return new LinkedList<>();
-//    }
+    public List<User> findUser(String name){
 
+        Session session = sessionFactory.openSession();
+
+        CriteriaBuilder cb = session.getCriteriaBuilder();
+        CriteriaQuery<User> cr = cb.createQuery(User.class);
+        Root<User> root = cr.from(User.class);
+
+        cr.select(root).where(cb.like(root.get("name"), "%"+name+"%"));
+
+        Query<User> query = session.createQuery(cr);
+
+
+        return query.getResultList();
+    }
 
 
 

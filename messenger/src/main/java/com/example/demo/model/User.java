@@ -1,10 +1,11 @@
 package com.example.demo.model;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.*;
 
 @Entity
-public class User {
+public class User implements Serializable {
 
 
     @Id
