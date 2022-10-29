@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
 
+import java.util.List;
+
 import static com.example.demo.model.Constants.TOKEN_PREFIX;
 
 
@@ -46,5 +48,26 @@ public class ControllerHTML {
 
         return "ht";
     }
+
+//    @GetMapping(path = "/getUser")
+//    public String getUsers(@CookieValue(value = "jwt") String token,@RequestHeader("name") String name) {
+//
+//
+//        String userLogin = jwtTokenUtil.getUsernameFromToken(token);
+//
+//        List<User> userList = service.findUser(name);
+//
+//        StringBuilder sb = new StringBuilder();
+//
+//
+//        for (int i = 0; i < userList.size(); i++) {
+//            sb.append(userList.get(i));
+//            sb.append("; ");
+//        }
+//
+//
+//
+//        return sb.toString();
+//    }
 
 }

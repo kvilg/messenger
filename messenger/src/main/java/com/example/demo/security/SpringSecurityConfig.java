@@ -42,9 +42,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private UserService service;
 
-    @Autowired
-    @Qualifier("handlerExceptionResolver")
-    private HandlerExceptionResolver resolver;
+
 
 
     @Bean
